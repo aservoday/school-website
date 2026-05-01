@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -190,62 +191,171 @@
     <p>© 2026 Amichand Servodaya Convent School</p>
 </footer><a href="https://wa.me/918791428442?text=Hello%20I%20want%20admission%20details" 
    class="whatsapp-float" target="_blank">💬</a>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
 
 
-<!-- TERA POORA WEBSITE CODE -->
 
-<section id="admission">
-    <h2>Admission Form</h2>
 
-    <form id="admissionForm">
-        <input type="text" id="name" placeholder="Student Name" required>
-        <input type="number" id="age" placeholder="Age" required>
-        <input type="text" id="class" placeholder="Class" required>
-        <input type="text" id="parent" placeholder="Parent Name" required>
-        <input type="tel" id="phone" placeholder="Phone Number" required>
-        <input type="email" id="email" placeholder="Email">
 
-        <button type="button" onclick="sendToWhatsApp()">Submit</button>
-    </form>
-    <p id="successMsg" style="display:none; color:green; font-weight:bold; margin-top:10px;">
-    ✅ Form submitted successfully!
+
+   <section id="admission">
+<h2>Admission Form</h2>
+
+<form id="admissionForm" class="admission-form">
+    
+
+<h3>Student Information</h3>
+
+<input type="text" id="name" placeholder="Full Name" required>
+<input type="date" id="dob" required>
+
+<select id="gender">
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+
+<input type="text" id="address" placeholder="Present Address">
+<input type="text" id="paddress" placeholder="Permanent Address">
+
+<input type="text" id="aadhar" placeholder="Aadhar Number">
+<input type="text" id="nationality" placeholder="Nationality">
+<input type="text" id="blood" placeholder="Blood Group">
+
+<input type="text" id="religion" placeholder="Religion">
+<input type="text" id="caste" placeholder="Caste (General/OBC/SC/ST)">
+
+<input type="text" id="previous" placeholder="Previous School">
+<input type="text" id="class" placeholder="Admission Class">
+
+<h3>Father Information</h3>
+
+<input type="text" id="fname" placeholder="Father Name">
+<input type="text" id="faadhar" placeholder="Aadhar Number">
+<input type="text" id="foccupation" placeholder="Occupation">
+<input type="tel" id="fphone" placeholder="Phone">
+<input type="email" id="femail" placeholder="Email">
+
+<h3>Mother Information</h3>
+
+<input type="text" id="mname" placeholder="Mother Name">
+<input type="text" id="maadhar" placeholder="Aadhar Number">
+<input type="text" id="moccupation" placeholder="Occupation">
+<input type="tel" id="mphone" placeholder="Phone">
+<input type="email" id="memail" placeholder="Email">
+
+<h3>Transport</h3>
+
+<select id="bus">
+<option>Yes</option>
+<option>No</option>
+</select>
+<button type="submit">Submit</button>
+</form>
+</section>
+    <p id="successMsg" style="display:none;color:green;font-weight:bold;">
+  ✅ Form submitted! Opening WhatsApp…
 </p>
 </section>
 
 <!-- 👇 SCRIPT ALWAYS LAST -->
-<script>
-function sendToWhatsApp(){
+<script type="module">
 
-    let name = document.getElementById("name").value;
-    let age = document.getElementById("age").value;
-    let className = document.getElementById("class").value;
-    let parent = document.getElementById("parent").value;
-    let phone = document.getElementById("phone").value;
-    let email = document.getElementById("email").value;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-    let message = `New Admission Form:
-Name: ${name}
-Age: ${age}
-Class: ${className}
-Parent: ${parent}
-Phone: ${phone}
-Email: ${email}`;
+const firebaseConfig = {
+  apiKey: "AIzaSyDCNtaFbtlicNnrPuMLqbCR2NdnNaiAiys",
+  authDomain: "school-website-4cb4b.firebaseapp.com",
+  projectId: "school-website-4cb4b",
+};
 
-    let number = "918791428442";
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    let url = "https://wa.me/" + number + "?text=" + encodeURIComponent(message);
+// 🔥 FORM SUBMIT
+document.getElementById("admissionForm").addEventListener("submit", async function(e){
+    e.preventDefault();
 
-    // ✅ Success message show
-    document.getElementById("successMsg").style.display = "block";
+    let data = {
+        name: document.getElementById("name").value,
+        dob: document.getElementById("dob").value,
+        gender: document.getElementById("gender").value,
+        address: document.getElementById("address").value,
+        paddress: document.getElementById("paddress").value,
+        aadhar: document.getElementById("aadhar").value,
+        nationality: document.getElementById("nationality").value,
+        blood: document.getElementById("blood").value,
+        religion: document.getElementById("religion").value,
+        caste: document.getElementById("caste").value,
+        previous: document.getElementById("previous").value,
+        class: document.getElementById("class").value,
 
-    // ✅ Form reset (clear fields)
-    document.getElementById("admissionForm").reset();
+        fname: document.getElementById("fname").value,
+        faadhar: document.getElementById("faadhar").value,
+        foccupation: document.getElementById("foccupation").value,
+        fphone: document.getElementById("fphone").value,
+        femail: document.getElementById("femail").value,
 
-    // ✅ WhatsApp open
-    window.location.href = url;
-}
+        mname: document.getElementById("mname").value,
+        maadhar: document.getElementById("maadhar").value,
+        moccupation: document.getElementById("moccupation").value,
+        mphone: document.getElementById("mphone").value,
+        memail: document.getElementById("memail").value,
+
+        bus: document.getElementById("bus").value,
+
+        time: new Date()
+    };
+
+    // 🔥 WhatsApp पहले open करो (IMPORTANT)
+let msg = `New Admission:\nName: ${data.name}\nClass: ${data.class}\nPhone: ${data.fphone}`;
+let url = "https://wa.me/918791428442?text=" + encodeURIComponent(msg);
+
+window.location.href = url;
+
+// 🔥 फिर Firebase save करो
+await addDoc(collection(db, "admissions"), data);
+
+   }); 
 </script>
 
-</body>
 </html>
